@@ -11,9 +11,8 @@ def main():
 
     validarPing = ping3.ping('192.168.1.1')
     while validarPing == None:
-        print(validarPing)
         validarPing = ping3.ping('192.168.1.1')
-        time.sleep(1)
+        print(validarPing)
         continue
 
     driver = webdriver.Chrome()
@@ -22,8 +21,12 @@ def main():
 
     # Faz o login na pagina, roteador deve estar resetado
     element = driver.find_elements(By.TAG_NAME, "input")
-    element[0].send_keys("alfa1627")
-    #element[2].send_keys("alfa1627")
+    if len(element) > 3:
+        element[0].send_keys("alfa1627")
+        element[2].send_keys("alfa1627")
+    else:
+        element[0].send_keys("alfa1627")
+        # element[2].send_keys("alfa1627")
     button = driver.find_element(By.TAG_NAME, "a")
     button.click()
     time.sleep(2)
@@ -38,20 +41,21 @@ def main():
     while validarPing != None:
         print(validarPing)
         validarPing = ping3.ping('192.168.1.1')
-        time.sleep(1)
+        time.sleep(0.5)
         continue
-    driver.close
+    driver.close()
 
     while validarPing == None:
-        print(validarPing)
         validarPing = ping3.ping('192.168.1.1')
-        time.sleep(1)
+        print(validarPing)
+        time.sleep(0.5)
         continue
 
     driver = webdriver.Chrome()
-    driver.get("http://192.168.1.1")
-    driver.implicitly_wait(10)
+    while driver.get("http://192.168.1.1") == False:
+        continue
 
+    driver.get("http://192.168.1.1")
     element = driver.find_elements(By.TAG_NAME, "input")
     element[0].send_keys("alfa1627")
     button = driver.find_element(By.TAG_NAME, "a")
