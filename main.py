@@ -8,7 +8,12 @@ fw_path = os.path.abspath("C:\MR50\Firmware.bin")
 conf_path = os.path.abspath("C:\MR50\Config.bin")
 
 def main():
-    while ping3.ping('192.168.1.1') < 0:
+
+    validarPing = ping3.ping('192.168.1.1')
+    while validarPing == None:
+        print(validarPing)
+        validarPing = ping3.ping('192.168.1.1')
+        time.sleep(1)
         continue
 
     driver = webdriver.Chrome()
@@ -18,7 +23,7 @@ def main():
     # Faz o login na pagina, roteador deve estar resetado
     element = driver.find_elements(By.TAG_NAME, "input")
     element[0].send_keys("alfa1627")
-    element[2].send_keys("alfa1627")
+    #element[2].send_keys("alfa1627")
     button = driver.find_element(By.TAG_NAME, "a")
     button.click()
     time.sleep(2)
@@ -30,11 +35,17 @@ def main():
     buttonUpgrade = driver.find_element(By.ID, "local-upgrade-btn").find_element(By.TAG_NAME, "a").click()
     confirmButton = driver.find_element(By.ID, "firmware-upgrade-msg-btn-ok").find_element(By.TAG_NAME, "a").click()
 
-    while ping3.ping('192.168.1.1') != None:
+    while validarPing != None:
+        print(validarPing)
+        validarPing = ping3.ping('192.168.1.1')
+        time.sleep(1)
         continue
     driver.close
 
-    while ping3.ping('192.168.1.1') == None:
+    while validarPing == None:
+        print(validarPing)
+        validarPing = ping3.ping('192.168.1.1')
+        time.sleep(1)
         continue
 
     driver = webdriver.Chrome()
@@ -53,7 +64,10 @@ def main():
     buttonUpgrade = driver.find_element(By.ID, "restore-button").find_element(By.TAG_NAME, "a").click()
     confirmButton = driver.find_element(By.ID, "restore-confirm-msg-btn-ok").find_element(By.TAG_NAME, "a").click()
 
-    while ping3.ping('192.168.1.1') != None:
+    while validarPing != None:
+        print(validarPing)
+        validarPing = ping3.ping('192.168.1.1')
+        time.sleep(1)
         continue
     driver.close()
     print("Finalizado com sucesso")
