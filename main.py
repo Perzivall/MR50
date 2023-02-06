@@ -13,6 +13,7 @@ def main():
     while validarPing == None:
         validarPing = ping3.ping('192.168.1.1')
         print(validarPing)
+        time.sleep(1)
         continue
 
     driver = webdriver.Chrome()
@@ -51,11 +52,19 @@ def main():
         time.sleep(0.5)
         continue
 
-    driver = webdriver.Chrome()
-    while driver.get("http://192.168.1.1") == False:
+
+    pings = [];
+    while len(pings) <= 3:
+        validarPing = ping3.ping('192.168.1.1')
+        if validarPing != None:
+            pings.append(str(validarPing))
+        time.sleep(1)
+        print(pings)
         continue
 
+    driver = webdriver.Chrome()
     driver.get("http://192.168.1.1")
+    driver.implicitly_wait(10)
     element = driver.find_elements(By.TAG_NAME, "input")
     element[0].send_keys("alfa1627")
     button = driver.find_element(By.TAG_NAME, "a")
